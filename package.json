@@ -12,7 +12,9 @@
     "dev:app": "npm run dev --workspace=@ds/example",
     "build": "npm run build --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "tokens:validate": "node scripts/validate-tokens.mjs"
+    "test": "npm run test --workspaces --if-present",
+    "tokens:validate": "node scripts/validate-tokens.mjs",
+    "verify": "npm run typecheck && npm run test && npm run tokens:validate"
   },
   "devDependencies": {
     "typescript": "^5.9.0"

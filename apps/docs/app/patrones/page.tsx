@@ -22,6 +22,9 @@ import {
 } from "@ds/ui";
 
 import { trendSeries } from "@/lib/mock-data";
+import { Showcase } from "@/components/showcase";
+import { DataTableDemo } from "@/components/data-table-demo";
+import { ToastDemo } from "@/components/toast-demo";
 
 export const metadata: Metadata = { title: "Patrones" };
 
@@ -264,11 +267,61 @@ export default function PatternsPage() {
       </Section>
 
       {/* ------------------------------------------------------------------ */}
-      <Section title="Estado de carga">
+      <Section
+        title="DataTable"
+        description="Orden, selección y paginación sin librería de tablas externa. Probá ordenar por Posts, seleccionar filas y pasar de página."
+      >
+        <DataTableDemo />
+
+        <div className="flex flex-col gap-2">
+          <p className="max-w-reading border-l-2 border-primary/40 pl-3 text-ui-sm text-muted-foreground">
+            <strong className="text-foreground">Orden en ciclo de tres:</strong>{" "}
+            ascendente → descendente → sin orden. El tercer clic devuelve la
+            tabla a su orden natural, que a veces es el que importa (el que vino
+            de la API). La columna activa expone{" "}
+            <code className="font-mono">aria-sort</code>: la flechita sola no le
+            dice nada a un lector de pantalla.
+          </p>
+          <p className="max-w-reading border-l-2 border-primary/40 pl-3 text-ui-sm text-muted-foreground">
+            <strong className="text-foreground">
+              «Seleccionar todas» alcanza solo la página visible.
+            </strong>{" "}
+            Marcar cuatro mil filas invisibles con un clic es un accidente
+            esperando ocurrir. Lo seleccionado en otras páginas se conserva.
+          </p>
+          <p className="max-w-reading border-l-2 border-primary/40 pl-3 text-ui-sm text-muted-foreground">
+            <strong className="text-foreground">Los vacíos van al final</strong>{" "}
+            en los dos sentidos del orden: «sin dato» no es ni el mayor ni el
+            menor. Y el orden usa{" "}
+            <code className="font-mono">localeCompare</code> con locale español,
+            porque un comparador ingenuo manda la «ñ» detrás de la «z».
+          </p>
+        </div>
+      </Section>
+
+      {/* ------------------------------------------------------------------ */}
+      <Section
+        title="Toasts"
+        description="Confirmaciones efímeras. Construidos sobre sonner, tematizados con los tokens del sistema."
+      >
+        <Showcase note="Cuándo NO usar un toast: para errores que el usuario tiene que resolver. Un toast se va solo y no vuelve. Un error de formulario va al lado del campo; un fallo que bloquea la tarea va en un Alert dentro de la página. El toast confirma lo que ya pasó, no pide acción.">
+          <ToastDemo />
+        </Showcase>
+
+        <p className="max-w-reading border-l-2 border-primary/40 pl-3 text-ui-sm text-muted-foreground">
+          Cada tipo lleva su icono, misma regla que en <code className="font-mono">Alert</code>:
+          el color no puede ser el único canal que comunica si algo salió bien o
+          mal. Los colores llegan por variables CSS, así que el tema oscuro
+          funciona solo.
+        </p>
+      </Section>
+
+      {/* ------------------------------------------------------------------ */}
+      <Section title="Lo que sigue">
         <EmptyState
           icon={InboxIcon}
-          title="Este patrón queda pendiente"
-          description="Un DataTable con ordenamiento, selección de filas y paginación es el siguiente candidato natural, pero es un componente en sí mismo y no entra en esta primera pasada."
+          title="Canal de textura para gráficos"
+          description="El respaldo de identidad para impresión en escala de grises y forced-colors. Es lo único que queda pendiente de la hoja de ruta original."
         />
       </Section>
     </>

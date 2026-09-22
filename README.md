@@ -31,7 +31,9 @@ npm install
 | `npm run dev:app` | App de ejemplo | 3200 |
 | `npm run build` | Build de producción de todo | |
 | `npm run typecheck` | TypeScript en todos los workspaces | |
+| `npm test` | Tests de la librería | |
 | `npm run tokens:validate` | Verifica el contrato de color | |
+| `npm run verify` | Las tres verificaciones juntas | |
 
 **La documentación** (<http://localhost:3100>) muestra el sistema pieza por
 pieza: fundaciones, componentes, patrones y gráficos, cada uno con la decisión
@@ -303,23 +305,57 @@ son todas las que entran y su justificación:
 
 | Paquete | Por qué |
 |---|---|
-| `@radix-ui/*` | La base headless de shadcn/ui. Implícito al elegir shadcn. |
+| `@radix-ui/*` | La base headless de shadcn/ui. Implícito al elegir shadcn. 13 paquetes, solo los que se importan. |
 | `recharts` | El motor de gráficos que Tremor usa internamente. No es un kit de UI. |
+| `sonner` | Toasts. Es lo que shadcn/ui adoptó tras deprecar su propio Toast. Tematizado con los tokens del sistema, no con su paleta. |
 | `lucide-react` | Iconos, el default de shadcn. Se cambia en un archivo. |
 | `class-variance-authority`, `clsx`, `tailwind-merge` | Utilidades de clases, sin UI propia. |
 | `tw-animate-css` | Las animaciones de Tailwind v4, reemplazo de `tailwindcss-animate`. |
-| `next-themes` | Solo en `apps/docs`, para el toggle de tema. La librería no lo usa. |
+| `next-themes` | Solo en las apps, para el toggle de tema. La librería no lo usa. |
 
-No hay ninguna otra librería de componentes.
+No hay ninguna otra librería de componentes. En particular, el `DataTable` no
+usa librería de tablas: el orden, la selección y la paginación son unas 80
+líneas propias. Si algún día hacen falta columnas redimensionables, agrupación
+o virtualización, ahí sí conviene una librería y ese componente se reemplaza
+entero.
 
 ---
 
+## Tests
+
+```bash
+npm test
+```
+
+43 tests sobre los **contratos** del sistema, no sobre detalles de render. Un
+test que afirma que un botón es azul se rompe cada vez que cambia el diseño y
+no protege nada. Lo que se verifica es lo que el sistema promete:
+
+- **El anillo de foco es idéntico** en Button e Input, y se activa con
+  `focus-visible`, nunca con `focus` a secas.
+- **Los tamaños salen de la misma tabla**, que es lo que hace que un input y un
+  botón alineen en una fila de toolbar. Y `lg` mide 44px, el mínimo de área
+  táctil.
+- **La paleta de datos no cicla colores**: la serie 9 sale en gris y avisa por
+  consola, en lugar de repetir el color de la serie 1.
+- **El formateador agrupa los miles de forma consistente** en números de 4 y 5
+  dígitos — el bug que dejaba un eje con «7500» y «10.000».
+- **`loading` en Button** deshabilita y marca `aria-busy`, y se ignora con
+  `asChild` porque Slot espera un solo hijo.
+- **El DataTable** ordena con locale español (la «ñ» en su lugar), manda los
+  vacíos al final en ambos sentidos, no muta el array que recibe, y su
+  «seleccionar todas» alcanza solo la página visible.
+
+Nota de plataforma: vitest corre con `pool: "threads"`. Con el `forks` por
+defecto, en Windows y con una ruta que tiene espacios y «ñ», los procesos hijo
+tardan más que el timeout y el run falla sin llegar a ejecutar nada.
+
 ## Qué falta
 
-- **DataTable** con ordenamiento, selección de filas y paginación. Es un
-  componente en sí mismo y no entró en esta primera pasada.
-- **Toasts.** `sonner` es el candidato natural pero requiere autorización.
-- **Canal de textura** para gráficos, como respaldo en impresión a escala de
-  grises y `forced-colors`.
-- **Tests.** No hay ninguno todavía; el validador de tokens es lo único
-  automatizado.
+- **Canal de textura** para gráficos, como respaldo de identidad en impresión a
+  escala de grises y `forced-colors`.
+- **Acciones en lote** en el DataTable. La selección ya funciona; lo que falta
+  es la barra de acciones sobre lo seleccionado.
+- **Tests de los gráficos.** Recharts en jsdom no mide el contenedor, así que
+  verificarlos pide otra estrategia (snapshots de la data que reciben, o tests
+  de navegador).

@@ -41,6 +41,7 @@ export { Label } from "./components/label";
 export { Textarea } from "./components/textarea";
 export { Separator } from "./components/separator";
 export { Skeleton } from "./components/skeleton";
+export { Toaster, toast, type ToasterProps } from "./components/toast";
 export {
   Alert,
   AlertTitle,
@@ -168,6 +169,12 @@ export { MobileNav, type MobileNavProps } from "./layouts/mobile-nav";
 
 /* Patrones ---------------------------------------------------------------- */
 export { PageHeader, type PageHeaderProps } from "./patterns/page-header";
+export {
+  DataTable,
+  type DataTableProps,
+  type DataTableColumn,
+  type SortState,
+} from "./patterns/data-table";
 export { EmptyState, type EmptyStateProps } from "./patterns/empty-state";
 export { StatCard, type StatCardProps } from "./patterns/stat-card";
 

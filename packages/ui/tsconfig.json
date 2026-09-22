@@ -6,6 +6,16 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  // `vitest.setup.ts` entra a propósito: ahí se importa
+  // "@testing-library/jest-dom/vitest", que es lo que aumenta la interfaz
+  // Assertion de vitest con `toBeDisabled`, `toHaveAttribute` y compañía. Si
+  // el archivo queda fuera del programa, los matchers funcionan en runtime
+  // pero TypeScript no los conoce.
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "vitest.config.ts",
+    "vitest.setup.ts"
+  ],
   "exclude": ["node_modules"]
 }

@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
   Textarea,
+  toast,
 } from "@ds/ui";
 
 import { ESTADOS, slugificar, useStore } from "@/lib/store";
@@ -114,8 +115,15 @@ export function PostDialog({
     setErrores(siguientes);
     if (Object.keys(siguientes).length > 0) return;
 
-    if (post) actualizar(post.id, valores);
-    else crear(valores);
+    if (post) {
+      actualizar(post.id, valores);
+      toast.success("Cambios guardados");
+    } else {
+      crear(valores);
+      toast.success("Post creado", {
+        description: `«${valores.titulo}» quedó como ${valores.estado}.`,
+      });
+    }
 
     onOpenChange(false);
   };

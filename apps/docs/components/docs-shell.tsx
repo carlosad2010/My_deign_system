@@ -16,6 +16,7 @@ import {
   Badge,
   MobileNav,
   SidebarNav,
+  Toaster,
   TooltipProvider,
   type RenderLink,
 } from "@ds/ui";
@@ -80,6 +81,9 @@ function DocsShell({ children }: { children: React.ReactNode }) {
             <AppContent>{children}</AppContent>
           </AppMain>
         </AppBody>
+
+        {/* Un solo Toaster por aplicación, montado en la raíz del shell. */}
+        <Toaster />
       </AppShell>
     </TooltipProvider>
   );

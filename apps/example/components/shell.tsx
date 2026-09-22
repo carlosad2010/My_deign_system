@@ -31,6 +31,7 @@ import {
   DropdownMenuTrigger,
   MobileNav,
   SidebarNav,
+  Toaster,
   TooltipProvider,
   type NavSection,
   type RenderLink,
@@ -155,6 +156,9 @@ function Shell({ children }: { children: React.ReactNode }) {
             <AppContent>{children}</AppContent>
           </AppMain>
         </AppBody>
+
+        {/* Un solo Toaster por aplicación. */}
+        <Toaster />
       </AppShell>
     </TooltipProvider>
   );
