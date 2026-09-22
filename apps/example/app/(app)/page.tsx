@@ -18,7 +18,7 @@ import {
   Section,
   Skeleton,
   StatCard,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { useStore } from "@/lib/store";
 import { EstadoBadge } from "@/components/estado-badge";

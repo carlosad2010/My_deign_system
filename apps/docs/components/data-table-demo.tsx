@@ -10,7 +10,7 @@ import {
   DataTable,
   EmptyState,
   type DataTableColumn,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { teamMembers } from "@/lib/mock-data";
 

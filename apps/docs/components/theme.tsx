@@ -10,7 +10,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 /**
  * `attribute="class"` es obligatorio: el Design System declara el tema oscuro

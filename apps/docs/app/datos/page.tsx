@@ -10,7 +10,7 @@ import {
   LineChart,
   PageHeader,
   Section,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import {
   channelBreakdown,

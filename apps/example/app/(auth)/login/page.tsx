@@ -21,7 +21,7 @@ import {
   Label,
   PasswordInput,
   Separator,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { ThemeToggle } from "@/components/theme";
 

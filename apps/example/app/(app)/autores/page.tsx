@@ -12,7 +12,7 @@ import {
   PageHeader,
   Progress,
   Separator,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { useStore } from "@/lib/store";
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { cn } from "@ds/ui";
+import { cn } from "biblioteca-diseno";
 
 /**
  * Contenedor de ejemplo. Existe para que cada demo de la documentación se vea

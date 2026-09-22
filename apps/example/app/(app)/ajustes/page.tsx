@@ -31,7 +31,7 @@ import {
   TabsList,
   TabsTrigger,
   Textarea,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { useStore } from "@/lib/store";
 

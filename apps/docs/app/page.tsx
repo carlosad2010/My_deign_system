@@ -20,7 +20,7 @@ import {
   Grid,
   PageHeader,
   Section,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 export default function IntroPage() {
   return (
@@ -141,19 +141,19 @@ export default function IntroPage() {
           <CardContent className="pt-5">
             <pre className="overflow-x-auto rounded-md bg-muted p-4 font-mono text-ui-sm">
               <code>{`// 1. package.json de la app
-"dependencies": { "@ds/ui": "*" }
+"dependencies": { "biblioteca-diseno": "*" }
 
 // 2. next.config.ts
-transpilePackages: ["@ds/ui"]
+transpilePackages: ["biblioteca-diseno"]
 
 // 3. app/globals.css  (trae Tailwind + tokens + base)
-@import "@ds/ui/styles.css";
+@import "biblioteca-diseno/styles.css";
 
 // 4. app/layout.tsx  (la fuente la elige la app, no la librería)
 const sans = Inter({ variable: "--ds-font-sans" });
 
 // 5. listo
-import { Button, StatCard, AreaChart } from "@ds/ui";`}</code>
+import { Button, StatCard, AreaChart } from "biblioteca-diseno";`}</code>
             </pre>
           </CardContent>
         </Card>

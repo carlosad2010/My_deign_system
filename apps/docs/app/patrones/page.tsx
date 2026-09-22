@@ -19,7 +19,7 @@ import {
   PageHeader,
   Section,
   StatCard,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { trendSeries } from "@/lib/mock-data";
 import { Showcase } from "@/components/showcase";

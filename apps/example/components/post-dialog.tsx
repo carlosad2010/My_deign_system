@@ -19,7 +19,7 @@ import {
   SelectValue,
   Textarea,
   toast,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { ESTADOS, slugificar, useStore } from "@/lib/store";
 import { etiquetaEstado } from "@/components/estado-badge";

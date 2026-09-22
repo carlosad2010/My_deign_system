@@ -6,7 +6,7 @@ derivada de **Tremor**.
 
 ```
 .
-├── packages/ui          @ds/ui — la librería
+├── packages/ui          biblioteca-diseno — la librería
 │   └── src/
 │       ├── styles/      tokens.css · globals.css
 │       ├── lib/         cn() y las recetas de estado
@@ -95,24 +95,23 @@ Detalles que vale la pena mirar en el código:
 - **`app/posts/page.tsx`** — «no hay posts» y «tu búsqueda no encontró nada» son
   problemas distintos, con copy y salida distintas.
 
-La app importa `@ds/ui` y nada más: **no define un solo color, tamaño ni radio
+La app importa `biblioteca-diseno` y nada más: **no define un solo color, tamaño ni radio
 propio**. Es la prueba de que el sistema cubre una pantalla real.
 
 ## Usarlo en otro proyecto
 
-```jsonc
-// package.json de la app
-"dependencies": { "@ds/ui": "*" }
+```bash
+npm install biblioteca-diseno
 ```
 
 ```ts
 // next.config.ts — se consume como fuente, sin paso de build propio
-transpilePackages: ["@ds/ui"]
+transpilePackages: ["biblioteca-diseno"]
 ```
 
 ```css
 /* app/globals.css — trae Tailwind, los tokens y la capa base */
-@import "@ds/ui/styles.css";
+@import "biblioteca-diseno/styles.css";
 ```
 
 ```tsx
@@ -121,7 +120,40 @@ const sans = Inter({ subsets: ["latin"], variable: "--ds-font-sans" });
 ```
 
 ```tsx
-import { Button, StatCard, AreaChart } from "@ds/ui";
+import { Button, StatCard, AreaChart } from "biblioteca-diseno";
+```
+
+---
+
+## Publicar una versión nueva
+
+El paquete se llama **`biblioteca-diseno`** y va al registro público de npm.
+
+```bash
+npm login                                  # una sola vez
+cd packages/ui
+npm version patch                          # o minor / major
+npm publish
+```
+
+`prepublishOnly` corre typecheck y tests antes de subir nada: si algo falla, la
+publicación se aborta.
+
+**Qué se publica.** Solo `src/`, sin los `.test.*`, más README y LICENSE — unos
+44 kB. El paquete no lleva JavaScript compilado: se publican los `.tsx` y los
+transpila el bundler del consumidor, que es por qué `transpilePackages` es
+obligatorio.
+
+**Versionado.** `patch` para correcciones, `minor` para componentes o props
+nuevas, `major` para cualquier cambio que rompa: renombrar un token, cambiar el
+valor por defecto de una prop o sacar una variante. Cambiar un token de color es
+un `major` aunque parezca cosmético — puede romper el contraste en una app que
+no controlás.
+
+Después de publicar, en los proyectos que lo consumen:
+
+```bash
+npm update biblioteca-diseno
 ```
 
 ---

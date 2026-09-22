@@ -1,6 +1,6 @@
 import { ArchiveIcon, CircleCheckIcon, PencilLineIcon } from "lucide-react";
 
-import { Badge } from "@ds/ui";
+import { Badge } from "biblioteca-diseno";
 
 import type { EstadoPost } from "@/lib/types";
 

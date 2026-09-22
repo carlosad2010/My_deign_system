@@ -35,7 +35,7 @@ import {
   TooltipProvider,
   type NavSection,
   type RenderLink,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { useStore } from "@/lib/store";
 import { ThemeToggle } from "@/components/theme";

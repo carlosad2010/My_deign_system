@@ -13,7 +13,7 @@ import {
   Section,
   Separator,
   cn,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { Showcase, TokenRow } from "@/components/showcase";
 

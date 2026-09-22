@@ -41,7 +41,7 @@ import {
   SelectValue,
   toast,
   type DataTableColumn,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { ESTADOS, useStore } from "@/lib/store";
 import { EstadoBadge, etiquetaEstado } from "@/components/estado-badge";

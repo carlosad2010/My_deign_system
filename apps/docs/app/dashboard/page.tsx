@@ -41,7 +41,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import {
   channelBreakdown,

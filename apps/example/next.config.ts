@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@ds/ui"],
+  transpilePackages: ["biblioteca-diseno"],
 };
 
 export default nextConfig;

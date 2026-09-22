@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, toast } from "@ds/ui";
+import { Button, toast } from "biblioteca-diseno";
 
 export function ToastDemo() {
   return (

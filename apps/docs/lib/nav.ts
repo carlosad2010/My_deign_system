@@ -7,7 +7,7 @@ import {
   PaletteIcon,
 } from "lucide-react";
 
-import type { NavSection } from "@ds/ui";
+import type { NavSection } from "biblioteca-diseno";
 
 export const docsNav: NavSection[] = [
   {

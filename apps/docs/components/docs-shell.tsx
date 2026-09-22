@@ -19,7 +19,7 @@ import {
   Toaster,
   TooltipProvider,
   type RenderLink,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { docsNav } from "@/lib/nav";
 import { ThemeToggle } from "@/components/theme";

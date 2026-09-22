@@ -15,6 +15,18 @@ export default defineConfig({
     // Los threads no spawnean proceso nuevo y arrancan mucho más rápido.
     pool: "threads",
 
+    // `isolate: false` reutiliza un worker entre archivos en lugar de levantar
+    // uno por archivo. No es una optimización cosmética: con aislamiento, cada
+    // archivo paga ~9s de arranque de jsdom, y cuando la máquina está ocupada
+    // (typecheck y build corriendo a la vez) varios workers superan el timeout
+    // y el run termina ejecutando solo una parte de los tests — en verde, que
+    // es lo peligroso.
+    //
+    // El precio es que los archivos comparten contexto. Está cubierto: el
+    // setup hace `cleanup()` después de cada test y los mocks se restauran en
+    // sus propios `afterEach`.
+    isolate: false,
+
     // jsdom es pesado de levantar; el default de 5s se queda corto en el
     // primer arranque en frío.
     testTimeout: 20_000,

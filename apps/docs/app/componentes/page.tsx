@@ -72,7 +72,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@ds/ui";
+} from "biblioteca-diseno";
 
 import { Showcase } from "@/components/showcase";
 import { teamMembers } from "@/lib/mock-data";

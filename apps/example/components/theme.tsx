@@ -4,7 +4,7 @@ import * as React from "react";
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 import { MoonIcon, SunIcon } from "lucide-react";
 
-import { Button } from "@ds/ui";
+import { Button } from "biblioteca-diseno";
 
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
