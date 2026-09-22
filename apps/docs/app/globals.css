@@ -1,0 +1,7 @@
+/* Toda la configuración de Tailwind y los tokens vienen del Design System.
+   Esta app no define ni un color: si necesita uno, es señal de que falta un
+   token en packages/ui. */
+@import "@ds/ui/styles.css";
+
+/* La app de docs escanea su propio contenido automáticamente; el source del
+   paquete lo declara el CSS de la librería. */

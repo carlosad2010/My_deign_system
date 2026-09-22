@@ -1,0 +1,472 @@
+/* =============================================================================
+ * TOKENS — única fuente de verdad del Design System
+ * =============================================================================
+ *
+ * Tres capas, en este orden:
+ *
+ *   1. PRIMITIVOS  (--ds-*)  rampas crudas. Nadie los usa directo en un componente.
+ *   2. SEMÁNTICOS            roles (--primary, --border, --chart-1...). Esto es lo
+ *                            que consumen los componentes. Cambian con el tema.
+ *   3. @theme inline         expone los semánticos como utilidades de Tailwind.
+ *
+ * Regla: un componente NUNCA escribe un color literal. Solo roles.
+ *
+ * Los valores de color de datos (--chart-*) están en HEX exacto a propósito:
+ * son los pasos validados por el script de accesibilidad (ver README §Color).
+ * Redondearlos a OKLCH invalidaría la medición de CVD/contraste.
+ * ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+ * 1. PRIMITIVOS
+ * ------------------------------------------------------------------------ */
+:root {
+  /* Neutrales ------------------------------------------------------------ */
+  --ds-neutral-0: #ffffff;
+  --ds-neutral-25: #fafafa;
+  --ds-neutral-50: #f4f4f5;
+  --ds-neutral-100: #ededef;
+  --ds-neutral-200: #e4e4e7;
+  --ds-neutral-300: #d4d4d8;
+  --ds-neutral-400: #a1a1aa;
+  --ds-neutral-500: #717179;
+  --ds-neutral-600: #52525b;
+  --ds-neutral-700: #3f3f46;
+  --ds-neutral-800: #2e2e2e;
+  --ds-neutral-850: #242424;
+  --ds-neutral-900: #1c1c1c;
+  --ds-neutral-950: #121212;
+  --ds-neutral-1000: #0b0b0b;
+
+  /* Rampa azul — marca + hue secuencial de datos ------------------------- */
+  --ds-blue-100: #cde2fb;
+  --ds-blue-150: #b7d3f6;
+  --ds-blue-200: #9ec5f4;
+  --ds-blue-250: #86b6ef;
+  --ds-blue-300: #6da7ec;
+  --ds-blue-350: #5598e7;
+  --ds-blue-400: #3987e5;
+  --ds-blue-450: #2a78d6;
+  --ds-blue-500: #256abf;
+  --ds-blue-550: #1c5cab;
+  --ds-blue-600: #184f95;
+  --ds-blue-650: #104281;
+  --ds-blue-700: #0d366b;
+
+  /* Hues categóricos de datos (orden fijo — ver README §Color) ----------- */
+  --ds-cat-blue-l: #2a78d6;    --ds-cat-blue-d: #3987e5;
+  --ds-cat-orange-l: #eb6834;  --ds-cat-orange-d: #d95926;
+  --ds-cat-aqua-l: #1baf7a;    --ds-cat-aqua-d: #199e70;
+  --ds-cat-yellow-l: #eda100;  --ds-cat-yellow-d: #c98500;
+  --ds-cat-magenta-l: #e87ba4; --ds-cat-magenta-d: #d55181;
+  --ds-cat-green-l: #008300;   --ds-cat-green-d: #008300;
+  --ds-cat-violet-l: #4a3aa7;  --ds-cat-violet-d: #9085e9;
+  --ds-cat-red-l: #e34948;     --ds-cat-red-d: #e66767;
+
+  /* Estado — escala fija, jamás se re-temiza ----------------------------- */
+  --ds-status-good: #0ca30c;
+  --ds-status-warning: #fab219;
+  --ds-status-serious: #ec835a;
+  --ds-status-critical: #d03b3b;
+
+  /* Pasos de texto accesible (medidos, no estimados) --------------------- */
+  --ds-good-text-l: #006300;     /* 7.54:1 sobre blanco */
+  --ds-good-text-d: #0ca30c;     /* 5.08:1 sobre #1c1c1c */
+  --ds-warning-text-l: #7a5200;  /* 6.92:1 */
+  --ds-warning-text-d: #fab219;  /* 9.29:1 */
+  --ds-danger-text-l: #b3261e;   /* 6.54:1 */
+  --ds-danger-text-d: #f08a8a;   /* 7.07:1 */
+  --ds-info-text-l: #1c5cab;     /* 6.63:1 */
+  --ds-info-text-d: #6da7ec;     /* 6.81:1 */
+
+  /* Fills de acción (paso que despeja 4.5:1 con su texto) ---------------- */
+  --ds-danger-fill-l: #c02f2f;   /* texto blanco 5.69:1 */
+  --ds-danger-fill-d: #e66767;   /* texto #0b0b0b 6.09:1 */
+}
+
+/* ---------------------------------------------------------------------------
+ * 2. SEMÁNTICOS — tema claro
+ * ------------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+
+  /* Superficies */
+  --background: var(--ds-neutral-25);
+  --foreground: var(--ds-neutral-1000);
+  --surface: var(--ds-neutral-0);           /* plano de card / chart */
+  --surface-foreground: var(--ds-neutral-1000);
+  --card: var(--ds-neutral-0);
+  --card-foreground: var(--ds-neutral-1000);
+  --popover: var(--ds-neutral-0);
+  --popover-foreground: var(--ds-neutral-1000);
+
+  /* Acción */
+  --primary: var(--ds-blue-500);            /* texto blanco 5.39:1 */
+  --primary-foreground: var(--ds-neutral-0);
+  --primary-hover: var(--ds-blue-550);
+  --primary-active: var(--ds-blue-600);
+  --primary-subtle: var(--ds-blue-100);
+  --primary-subtle-foreground: var(--ds-blue-650);
+
+  --secondary: var(--ds-neutral-100);
+  --secondary-foreground: var(--ds-neutral-800);
+  --accent: var(--ds-neutral-100);
+  --accent-foreground: var(--ds-neutral-900);
+  --muted: var(--ds-neutral-50);
+  --muted-foreground: var(--ds-neutral-500); /* 4.84:1 */
+
+  /* Estados semánticos: fill (marca) + text (tipografía accesible) */
+  --success: var(--ds-status-good);
+  --success-foreground: var(--ds-neutral-1000);
+  --success-text: var(--ds-good-text-l);
+  --success-subtle: #e6f6e6;
+
+  --warning: var(--ds-status-warning);
+  --warning-foreground: var(--ds-neutral-1000);
+  --warning-text: var(--ds-warning-text-l);
+  --warning-subtle: #fdf3d9;
+
+  --destructive: var(--ds-danger-fill-l);
+  --destructive-foreground: var(--ds-neutral-0);
+  --destructive-text: var(--ds-danger-text-l);
+  --destructive-subtle: #fdeaea;
+
+  --info: var(--ds-blue-500);
+  --info-foreground: var(--ds-neutral-0);
+  --info-text: var(--ds-info-text-l);
+  --info-subtle: var(--ds-blue-100);
+
+  /* Líneas y foco */
+  --border: var(--ds-neutral-200);
+  --border-strong: var(--ds-neutral-300);
+  --input: var(--ds-neutral-300);
+  --ring: var(--ds-blue-500);               /* 5.39:1 vs superficie */
+
+  /* Sidebar (patrón Taxonomy / Shadcn Space) */
+  --sidebar: var(--ds-neutral-0);
+  --sidebar-foreground: var(--ds-neutral-1000);
+  --sidebar-accent: var(--ds-neutral-100);
+  --sidebar-accent-foreground: var(--ds-neutral-900);
+  --sidebar-border: var(--ds-neutral-200);
+  --sidebar-ring: var(--ds-blue-500);
+
+  /* Datos — paleta categórica, orden fijo, nunca ciclado */
+  --chart-1: var(--ds-cat-blue-l);
+  --chart-2: var(--ds-cat-orange-l);
+  --chart-3: var(--ds-cat-aqua-l);
+  --chart-4: var(--ds-cat-yellow-l);
+  --chart-5: var(--ds-cat-magenta-l);
+  --chart-6: var(--ds-cat-green-l);
+  --chart-7: var(--ds-cat-violet-l);
+  --chart-8: var(--ds-cat-red-l);
+
+  /* Datos — rampa ordinal/secuencial (un solo hue, L monótona) */
+  --chart-seq-1: var(--ds-blue-250);
+  --chart-seq-2: var(--ds-blue-350);
+  --chart-seq-3: var(--ds-blue-450);
+  --chart-seq-4: var(--ds-blue-550);
+  --chart-seq-5: var(--ds-blue-650);
+
+  /* Cromo de gráfico */
+  --chart-grid: var(--ds-neutral-200);
+  --chart-axis: var(--ds-neutral-300);
+  --chart-ink: var(--ds-neutral-500);
+  --chart-surface: var(--ds-neutral-0);
+}
+
+/* ---------------------------------------------------------------------------
+ * 2b. SEMÁNTICOS — tema oscuro
+ *
+ * Los pasos oscuros están SELECCIONADOS para la superficie oscura y validados
+ * como conjunto. No son una inversión automática del tema claro.
+ * ------------------------------------------------------------------------ */
+.dark {
+  color-scheme: dark;
+
+  --background: var(--ds-neutral-950);
+  --foreground: var(--ds-neutral-0);
+  --surface: var(--ds-neutral-900);
+  --surface-foreground: var(--ds-neutral-0);
+  --card: var(--ds-neutral-900);
+  --card-foreground: var(--ds-neutral-0);
+  --popover: var(--ds-neutral-850);
+  --popover-foreground: var(--ds-neutral-0);
+
+  --primary: var(--ds-blue-350);            /* texto #0b0b0b 6.59:1 */
+  --primary-foreground: var(--ds-neutral-1000);
+  --primary-hover: var(--ds-blue-300);
+  --primary-active: var(--ds-blue-250);
+  --primary-subtle: #14294a;
+  --primary-subtle-foreground: var(--ds-blue-250);
+
+  --secondary: var(--ds-neutral-800);
+  --secondary-foreground: var(--ds-neutral-100);
+  --accent: var(--ds-neutral-800);
+  --accent-foreground: var(--ds-neutral-0);
+  --muted: var(--ds-neutral-850);
+  --muted-foreground: var(--ds-neutral-400); /* 6.65:1 */
+
+  --success: var(--ds-status-good);
+  --success-foreground: var(--ds-neutral-1000);
+  --success-text: var(--ds-good-text-d);
+  --success-subtle: #0f2a0f;
+
+  --warning: var(--ds-status-warning);
+  --warning-foreground: var(--ds-neutral-1000);
+  --warning-text: var(--ds-warning-text-d);
+  --warning-subtle: #3a2c07;
+
+  --destructive: var(--ds-danger-fill-d);
+  --destructive-foreground: var(--ds-neutral-1000);
+  --destructive-text: var(--ds-danger-text-d);
+  --destructive-subtle: #3a1d1d;
+
+  --info: var(--ds-blue-350);
+  --info-foreground: var(--ds-neutral-1000);
+  --info-text: var(--ds-info-text-d);
+  --info-subtle: #14294a;
+
+  --border: var(--ds-neutral-800);
+  --border-strong: var(--ds-neutral-700);
+  --input: var(--ds-neutral-700);
+  --ring: var(--ds-blue-350);               /* 5.71:1 vs superficie */
+
+  --sidebar: var(--ds-neutral-900);
+  --sidebar-foreground: var(--ds-neutral-0);
+  --sidebar-accent: var(--ds-neutral-800);
+  --sidebar-accent-foreground: var(--ds-neutral-0);
+  --sidebar-border: var(--ds-neutral-800);
+  --sidebar-ring: var(--ds-blue-350);
+
+  --chart-1: var(--ds-cat-blue-d);
+  --chart-2: var(--ds-cat-orange-d);
+  --chart-3: var(--ds-cat-aqua-d);
+  --chart-4: var(--ds-cat-yellow-d);
+  --chart-5: var(--ds-cat-magenta-d);
+  --chart-6: var(--ds-cat-green-d);
+  --chart-7: var(--ds-cat-violet-d);
+  --chart-8: var(--ds-cat-red-d);
+
+  --chart-seq-1: var(--ds-blue-600);
+  --chart-seq-2: var(--ds-blue-500);
+  --chart-seq-3: var(--ds-blue-400);
+  --chart-seq-4: var(--ds-blue-300);
+  --chart-seq-5: var(--ds-blue-200);
+
+  --chart-grid: var(--ds-neutral-800);
+  --chart-axis: var(--ds-neutral-700);
+  --chart-ink: var(--ds-neutral-400);
+  --chart-surface: var(--ds-neutral-900);
+}
+
+/* ---------------------------------------------------------------------------
+ * 3. ESCALAS NO CROMÁTICAS
+ * ------------------------------------------------------------------------ */
+:root {
+  /* Radius — todo deriva de --radius. Cambiar la base reescala el sistema. */
+  --radius: 0.625rem; /* 10px */
+
+  /* Elevación — sombras cortas y de baja opacidad; la jerarquía la carga
+     el borde, no el blur. */
+  --ds-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --ds-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  --ds-shadow-md: 0 4px 10px -2px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+  --ds-shadow-lg: 0 12px 28px -6px rgb(0 0 0 / 0.12), 0 4px 8px -4px rgb(0 0 0 / 0.06);
+
+  /* Movimiento */
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 260ms;
+  --ds-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ds-ease-emphasized: cubic-bezier(0.3, 0, 0, 1);
+
+  /* Foco — un solo anillo para todo el sistema */
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+
+  /* Layout */
+  --layout-header-height: 3.5rem;   /* 56px */
+  --layout-sidebar-width: 16rem;    /* 256px */
+  --layout-content-max: 80rem;      /* 1280px */
+  --layout-prose-max: 45rem;        /* 720px */
+  --layout-gutter: 1rem;
+}
+
+@media (min-width: 768px) {
+  :root { --layout-gutter: 1.5rem; }
+}
+@media (min-width: 1280px) {
+  :root { --layout-gutter: 2rem; }
+}
+
+.dark {
+  --ds-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --ds-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+  --ds-shadow-md: 0 4px 10px -2px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --ds-shadow-lg: 0 12px 28px -6px rgb(0 0 0 / 0.6), 0 4px 8px -4px rgb(0 0 0 / 0.4);
+}
+
+/* ---------------------------------------------------------------------------
+ * 4. PUENTE A TAILWIND
+ *
+ * `inline` es obligatorio: hace que las utilidades resuelvan var(--x) en tiempo
+ * de uso, que es lo que permite que `.dark` reasigne los roles sin regenerar
+ * ninguna clase.
+ * ------------------------------------------------------------------------ */
+@theme inline {
+  /* Color ---------------------------------------------------------------- */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-primary-subtle-foreground: var(--primary-subtle-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-text: var(--success-text);
+  --color-success-subtle: var(--success-subtle);
+
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-text: var(--warning-text);
+  --color-warning-subtle: var(--warning-subtle);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-text: var(--destructive-text);
+  --color-destructive-subtle: var(--destructive-subtle);
+
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-text: var(--info-text);
+  --color-info-subtle: var(--info-subtle);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+  --color-chart-7: var(--chart-7);
+  --color-chart-8: var(--chart-8);
+
+  --color-chart-seq-1: var(--chart-seq-1);
+  --color-chart-seq-2: var(--chart-seq-2);
+  --color-chart-seq-3: var(--chart-seq-3);
+  --color-chart-seq-4: var(--chart-seq-4);
+  --color-chart-seq-5: var(--chart-seq-5);
+
+  --color-chart-grid: var(--chart-grid);
+  --color-chart-axis: var(--chart-axis);
+  --color-chart-ink: var(--chart-ink);
+  --color-chart-surface: var(--chart-surface);
+
+  /* Tipografía ----------------------------------------------------------- */
+  --font-sans: var(--ds-font-sans, ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif);
+  --font-mono: var(--ds-font-mono, ui-monospace, SFMono-Regular, "SF Mono",
+    Menlo, Consolas, monospace);
+
+  /* Cada paso lleva su line-height y tracking pegados: pedir un tamaño es
+     pedir el bloque tipográfico completo, no solo el font-size. */
+  --text-display: 3rem;
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.025em;
+  --text-display--font-weight: 700;
+
+  --text-h1: 2.25rem;
+  --text-h1--line-height: 1.15;
+  --text-h1--letter-spacing: -0.021em;
+  --text-h1--font-weight: 700;
+
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 1.25;
+  --text-h2--letter-spacing: -0.016em;
+  --text-h2--font-weight: 600;
+
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.012em;
+  --text-h3--font-weight: 600;
+
+  --text-h4: 1.0625rem;
+  --text-h4--line-height: 1.4;
+  --text-h4--letter-spacing: -0.008em;
+  --text-h4--font-weight: 600;
+
+  --text-body-lg: 1.0625rem;
+  --text-body-lg--line-height: 1.65;
+
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.6;
+
+  --text-ui: 0.875rem;
+  --text-ui--line-height: 1.45;
+
+  --text-ui-sm: 0.8125rem;
+  --text-ui-sm--line-height: 1.45;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0.005em;
+
+  --text-overline: 0.6875rem;
+  --text-overline--line-height: 1.3;
+  --text-overline--letter-spacing: 0.06em;
+  --text-overline--font-weight: 600;
+
+  /* Radius --------------------------------------------------------------- */
+  --radius-xs: calc(var(--radius) - 6px);   /*  4px */
+  --radius-sm: calc(var(--radius) - 4px);   /*  6px */
+  --radius-md: calc(var(--radius) - 2px);   /*  8px */
+  --radius-lg: var(--radius);               /* 10px */
+  --radius-xl: calc(var(--radius) + 4px);   /* 14px */
+  --radius-2xl: calc(var(--radius) + 10px); /* 20px */
+
+  /* Elevación ------------------------------------------------------------ */
+  --shadow-xs: var(--ds-shadow-xs);
+  --shadow-sm: var(--ds-shadow-sm);
+  --shadow-md: var(--ds-shadow-md);
+  --shadow-lg: var(--ds-shadow-lg);
+
+  /* Movimiento ----------------------------------------------------------- */
+  --ease-standard: var(--ds-ease-standard);
+  --ease-emphasized: var(--ds-ease-emphasized);
+
+  /* Layout --------------------------------------------------------------- */
+  --spacing-gutter: var(--layout-gutter);
+  --spacing-header: var(--layout-header-height);
+  --spacing-sidebar: var(--layout-sidebar-width);
+  --container-content: var(--layout-content-max);
+  /* `reading` y no `prose`: Tailwind ya trae un `max-w-prose` (65ch) y pisarlo
+     sorprendería a cualquiera que espere el built-in. */
+  --container-reading: var(--layout-prose-max);
+}

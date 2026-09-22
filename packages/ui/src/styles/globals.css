@@ -1,0 +1,96 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./tokens.css";
+
+/* Tailwind v4 detecta contenido automáticamente, pero el paquete se consume
+   desde otro workspace: hay que apuntarle explícitamente al source de la
+   librería o las clases usadas dentro de packages/ui no se generan. */
+@source "../";
+
+/* El tema oscuro es una clase, no una media query: el usuario manda sobre el
+   sistema operativo. `next-themes` escribe `.dark` en <html>. */
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  *,
+  ::after,
+  ::before {
+    border-color: var(--border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ESTADO: foco.
+     Un único anillo para todo el sistema. `:focus-visible` y no `:focus`, para
+     no castigar al usuario de mouse. Los componentes no redefinen esto: lo
+     heredan vía la receta `focusRing` de lib/states.ts. */
+  :focus-visible {
+    outline: var(--focus-ring-width) solid color-mix(in oklab, var(--ring) 55%, transparent);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  /* `tabular-nums` SOLO donde los dígitos tienen que alinearse verticalmente:
+     columnas de tabla y ticks de eje. Un número grande y solo (el valor de un
+     KPI) se ve mejor con las cifras proporcionales de la fuente — forzarle
+     tabulares le mete aire raro entre dígitos. */
+  table tbody td[data-numeric="true"],
+  .recharts-cartesian-axis-tick text {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--primary) 26%, transparent);
+  }
+
+  /* Accesibilidad: respetar la preferencia del sistema. Se neutraliza la
+     animación sin romper layouts que dependan de que el evento `transitionend`
+     llegue a dispararse. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Contenedor de página: ancho máximo + gutter responsive, en una clase. */
+  .ds-container {
+    width: 100%;
+    margin-inline: auto;
+    max-width: var(--layout-content-max);
+    padding-inline: var(--layout-gutter);
+  }
+
+  /* Oculto visualmente pero legible por lector de pantalla. */
+  .ds-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}

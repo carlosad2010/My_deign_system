@@ -1,0 +1,4 @@
+/* Una sola línea. Todo el sistema — Tailwind, tokens, capa base — viene de acá.
+   Esta app no define ni un color propio: si necesitara uno, sería señal de que
+   falta un token en @ds/ui. */
+@import "@ds/ui/styles.css";
