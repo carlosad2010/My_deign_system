@@ -390,10 +390,25 @@ tardan más que el timeout y el run falla sin llegar a ejecutar nada.
 
 ## Qué falta
 
-- **Canal de textura** para gráficos, como respaldo de identidad en impresión a
-  escala de grises y `forced-colors`.
 - **Acciones en lote** en el DataTable. La selección ya funciona; lo que falta
   es la barra de acciones sobre lo seleccionado.
 - **Tests de los gráficos.** Recharts en jsdom no mide el contenedor, así que
   verificarlos pide otra estrategia (snapshots de la data que reciben, o tests
   de navegador).
+
+## Qué se decidió NO hacer
+
+**Canal de textura en los gráficos.** Es el respaldo de identidad para los dos
+casos donde el color falla del todo: impresión en escala de grises y
+`forced-colors`. Queda deliberadamente fuera.
+
+El motivo: los gráficos ya tienen tres canales de respaldo — leyenda siempre
+presente con 2+ series, tooltip y vista de tabla — que es lo que exige la
+medición de contraste. La textura cubriría solo esos dos casos extra, y con una
+restricción técnica pesada: Recharts dibuja SVG, donde un `<pattern>` funciona
+en `fill` (barras, áreas, donut) pero no en `stroke`, así que las líneas
+quedarían afuera y necesitarían otro mecanismo.
+
+Si algún día hace falta, el camino más corto es patrones SVG a 45°/135° con una
+prop explícita por gráfico, y recién después la detección automática por
+`matchMedia("(forced-colors: active)")` y `beforeprint`.
