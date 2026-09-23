@@ -1,6 +1,6 @@
 {
   "name": "biblioteca-diseno",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Design System sobre shadcn/ui y Tailwind CSS v4, con patrones de layout inspirados en Taxonomy y visualización de datos derivada de Tremor.",
   "keywords": [
     "design-system",

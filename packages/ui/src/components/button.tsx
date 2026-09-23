@@ -95,6 +95,7 @@ function Button({
   loading = false,
   loadingText,
   type,
+  formAction,
   disabled,
   children,
   ...props
@@ -102,11 +103,23 @@ function Button({
   const Comp = asChild ? Slot : "button";
   const cargando = loading && !asChild;
 
+  /**
+   * El default es `button` para que un botón suelto dentro de un `<form>` no
+   * lo envíe sin querer — la causa clásica de «se recargó la página sola».
+   *
+   * Pero si viene `formAction`, ese default rompe el botón en silencio:
+   * `formAction` SOLO tiene efecto en un botón de envío, así que con
+   * `type="button"` el navegador lo ignora y el clic no hace absolutamente
+   * nada. Pasar `formAction` es una declaración de intención inequívoca, así
+   * que manda sobre el default.
+   */
+  const tipoResuelto = type ?? (formAction ? "submit" : "button");
+
   return (
     <Comp
       data-slot="button"
-      // Un <button> sin type dentro de un form envía el form. Default explícito.
-      type={asChild ? type : (type ?? "button")}
+      type={asChild ? type : tipoResuelto}
+      formAction={formAction}
       // `disabled` evita el doble envío; `aria-busy` es lo que comunica
       // "esperá, está pasando algo" a un lector de pantalla. El spinner solo
       // es información visual.

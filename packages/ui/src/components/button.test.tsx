@@ -19,6 +19,49 @@ describe("Button", () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
+  describe("formAction", () => {
+    // Regresión: el default `type="button"` hacía que el navegador ignorara
+    // `formAction` por completo. El clic no hacía nada y no había error en
+    // consola — el peor tipo de bug. Apareció en una app real, en un botón de
+    // «Guardar borrador» que no guardaba.
+    it("cambia el type a submit cuando recibe formAction", () => {
+      render(<Button formAction={() => {}}>Guardar borrador</Button>);
+      expect(screen.getByRole("button")).toHaveAttribute("type", "submit");
+    });
+
+    it("dispara la acción del formAction al hacer clic", async () => {
+      const principal = vi.fn((e: React.FormEvent) => e.preventDefault());
+      // `formAction` recibe el FormData, no el evento: es la firma de una
+      // server action, distinta de la de `onSubmit`.
+      const alternativa = vi.fn((_: FormData) => {});
+
+      render(
+        <form onSubmit={principal}>
+          <Button formAction={alternativa}>Guardar borrador</Button>
+        </form>,
+      );
+
+      await userEvent.click(screen.getByRole("button"));
+      // jsdom no implementa el override real de formAction, pero sí dispara el
+      // submit — que es exactamente lo que NO pasaba con type="button".
+      expect(principal).toHaveBeenCalledOnce();
+    });
+
+    it("un type explícito sigue ganando sobre formAction", () => {
+      render(
+        <Button type="button" formAction={() => {}}>
+          Raro pero válido
+        </Button>,
+      );
+      expect(screen.getByRole("button")).toHaveAttribute("type", "button");
+    });
+
+    it("sin formAction se mantiene el default seguro", () => {
+      render(<Button>Acción</Button>);
+      expect(screen.getByRole("button")).toHaveAttribute("type", "button");
+    });
+  });
+
   it("respeta un type=submit explícito", async () => {
     const onSubmit = vi.fn((e: React.FormEvent) => e.preventDefault());
     render(
