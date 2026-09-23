@@ -1,8 +1,14 @@
 # Biblioteca de Diseño
 
+[![npm](https://img.shields.io/npm/v/biblioteca-diseno)](https://www.npmjs.com/package/biblioteca-diseno)
+
 Design System propio sobre **shadcn/ui** y **Tailwind CSS v4**, con patrones de
 layout inspirados en **Taxonomy** y **Shadcn Space**, y visualización de datos
 derivada de **Tremor**.
+
+Publicado como [`biblioteca-diseno`](https://www.npmjs.com/package/biblioteca-diseno)
+en npm. Este repositorio es el monorepo donde se desarrolla: la librería más su
+documentación y una app de ejemplo que la consume.
 
 ```
 .

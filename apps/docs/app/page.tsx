@@ -135,18 +135,20 @@ export default function IntroPage() {
 
       <Section
         title="Instalación en un proyecto nuevo"
-        description="El paquete se consume como código fuente; no hay paso de build intermedio."
+        description="El paquete se publica como código fuente; no hay paso de build intermedio."
       >
         <Card>
           <CardContent className="pt-5">
             <pre className="overflow-x-auto rounded-md bg-muted p-4 font-mono text-ui-sm">
-              <code>{`// 1. package.json de la app
-"dependencies": { "biblioteca-diseno": "*" }
+              <code>{`# 1. instalar
+npm install biblioteca-diseno
 
-// 2. next.config.ts
+// 2. next.config.ts  — obligatorio: el paquete son .tsx sin compilar
 transpilePackages: ["biblioteca-diseno"]
 
 // 3. app/globals.css  (trae Tailwind + tokens + base)
+//    Reemplaza tu CSS global, no lo agregues: el sistema define
+//    --background, --foreground y su propia capa base.
 @import "biblioteca-diseno/styles.css";
 
 // 4. app/layout.tsx  (la fuente la elige la app, no la librería)
@@ -157,6 +159,18 @@ import { Button, StatCard, AreaChart } from "biblioteca-diseno";`}</code>
             </pre>
           </CardContent>
         </Card>
+        <p className="max-w-reading border-l-2 border-primary/40 pl-3 text-ui-sm text-muted-foreground">
+          Publicado en npm como{" "}
+          <a
+            href="https://www.npmjs.com/package/biblioteca-diseno"
+            className="text-info-text underline underline-offset-4"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            biblioteca-diseno
+          </a>
+          . Ya lo consume una aplicación real en producción.
+        </p>
       </Section>
     </>
   );
